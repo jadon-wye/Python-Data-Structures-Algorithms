@@ -8,20 +8,21 @@ CS 기초와 코딩 실력을 동시에 향상시키기 위한 개인 학습 프
 ## 폴더 구조
 
 project_root/
-├── data_structures/ # 자료구조 직접 구현
-│ └── (예: array_list.py, stack.py, ...)
-├── algorithms/ # 내장 자료구조 활용 문제 풀이
-│ ├── bin_array_sort.py
-│ ├── find_max_two.py
-│ ├── find_sub_array.py
-│ └── is_palindrome.py
-├── tests/ # pytest 테스트 파일
-│ ├── test_bin_array_sort.py
-│ ├── test_find_max_two.py
-│ ├── test_find_sub_array.py
-│ └── test_is_palindrome.py
-├── pyproject.toml # pytest 설정
-└── .gitignore
+├── src/
+│   ├── algorithms/  # 내장 자료구조 활용 문제 풀이
+│   │   ├── __init__.py
+│   │   ├── bin_array_sort.py
+│   │   ├── find_max_two.py
+│   │   ├── find_sub_array.py
+│   │   └── is_palindrome.py
+│   └── data_structures/  # 자료구조 직접 구현
+│       └── __init__.py
+├── tests/  # pytest 테스트 파일
+│   ├── test_bin_array_sort.py
+│   ├── test_find_max_two.py
+│   ├── test_find_sub_array.py
+│   └── test_is_palindrome.py
+└── pyproject.toml # pytest 설정
 
 ---
 
