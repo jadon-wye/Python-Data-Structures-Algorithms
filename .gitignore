@@ -1,0 +1,23 @@
+# 가상환경
+.venv/
+venv/
+
+# Python 캐시 파일
+__pycache__/
+*.py[cod]
+*$py.class
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE / 편집기 설정
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS별 불필요 파일
+.DS_Store
+Thumbs.db
