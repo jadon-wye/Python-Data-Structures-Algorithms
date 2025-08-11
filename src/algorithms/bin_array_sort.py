@@ -1,7 +1,6 @@
 # 0과 1로 이루어진 배열이 있다. 배열 자체를 오름차순으로 정렬하라.
 # python의 sort() 메소드 구현하기
 
-
 # Two Pointer 방식으로 구현하기 (1차)
 def bin_array_sort_v1(arr: list[int]) -> list[int]:
     """
@@ -88,6 +87,8 @@ def bin_array_sort_v4(arr: list[int]) -> list[int]:
     left = 0
     right = len(arr) - 1
 
+    if any(x not in (0, 1) for x in arr): raise ValueError # 입력 검증 추가
+
     while left < right:
         while left < right and arr[left] == 0: # left가 right를 넘어 가지 않도록 반복 조건 수정
             left += 1
@@ -96,11 +97,22 @@ def bin_array_sort_v4(arr: list[int]) -> list[int]:
         if left < right:
             arr[left], arr[right] = arr[right], arr[left]
             left, right = left + 1, right - 1
-    
+
     return arr
 
+# Counting 방식으로 구현하기 (1차)
+def bin_array_sort_counting(arr: list[int]) -> list[int]:
+    """
+    Args:
+        arr (list[int]): 정수 리스트, 길이 >= 2
+    Returns:
+        list[int]: [최댓값, 두 번째 최댓값]
+    Time Complexity:
+        O(n) - 한 번 순회
+    """
+    return [0]*arr.count(0) + [1]*arr.count(1)
 
 # Test code 
 for arr in ([1, 0, 1, 1, 1, 1, 1, 0, 0, 0], [1, 1]):  
-    print(bin_array_sort_v4(arr))  
+    print(bin_array_sort_counting(arr))  
     

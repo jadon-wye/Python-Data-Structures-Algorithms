@@ -6,11 +6,13 @@ def find_max_two(arr: list[int]) -> list[int]:
     """
     배열에서 가장 큰 값과 두 번째로 큰 값을 찾아서 반환한다.
     Args:
-        arr (list[int]): 정수 리스트, 길이 >= 2
+        arr (list[int]): 정수 리스트, 길이 < 2라면 그냥 arr 리턴
     Returns:
         list[int]: [최댓값, 두 번째 최댓값]
     Time Complexity:
         O(n) - 한 번 순회
+    중복 허용 정책:
+        [9, 9, 1] -> [9, 9]
     """
     if len(arr) < 2:
         return arr
@@ -25,7 +27,6 @@ def find_max_two(arr: list[int]) -> list[int]:
             max1, max2 = n, max1
         elif n > max2:
             max2 = n     
-
 
     return [max1, max2]
 

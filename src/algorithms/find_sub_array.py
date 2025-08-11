@@ -57,9 +57,9 @@ def find_sub_array_two_pointer_v2(arr: list[int], s: int) -> list[int]:
     Return:
         list[int]: 부분 배열의 인덱스, 조건을 만족하는 부분 배열이 없으면 [-1]
     Time Complexity:
-        O(n1) - 한 번 순회
+        O(n) - 한 번 순회
     """
-    if s <= 0:
+    if s <= 0:  # 예외처리
         return [-1]
     left = 0
     sub_total = 0
