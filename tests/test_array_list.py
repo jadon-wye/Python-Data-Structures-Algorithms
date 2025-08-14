@@ -73,8 +73,12 @@ def test_append_one():
     # 한번만 추가
     arr = ArrayList()
     arr.append(1)
+    expected_list = [1] # 예상 리스트를 미리 생성
+
     assert len(arr) == 1
     assert arr[0] == 1
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    # 순서 보존 검사
     assert_invariant(arr)
 
 def test_append_no_expand():    
@@ -82,9 +86,11 @@ def test_append_no_expand():
     arr = ArrayList()
     for i in [10, 20, 30, 40]:
         arr.append(i)
+    expected_list = [10, 20, 30, 40]
+
     assert len(arr) == 4
     assert arr.capacity == 4
-    assert [arr[i] for i in range(len(arr))] == [10, 20, 30, 40]
+    assert [arr[i] for i in range(len(arr))] == expected_list
     assert_invariant(arr)
     
 def test_append_single_expand():   
@@ -93,9 +99,11 @@ def test_append_single_expand():
     for i in [10, 20, 30, 40]:
         arr.append(i)
     arr.append(50)
+    expected_list = [10, 20, 30, 40, 50]
+    
     assert len(arr) == 5
     assert arr.capacity == 8
-    assert [arr[i] for i in range(len(arr))] == [10, 20, 30, 40, 50]
+    assert [arr[i] for i in range(len(arr))] == expected_list
     assert_invariant(arr)
 
 def test_append_multiple_expand():
@@ -103,13 +111,81 @@ def test_append_multiple_expand():
     arr = ArrayList()
     for i in range(20): # capacity: 4->8->16->32
         arr.append(i)
+    expected_list = [i for i in range(20)]
+
     assert len(arr) == 20
     assert arr.capacity == 32
     for i in range(20):
         assert arr[i] == i
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_append_various_types():
+    # 타입 다양성 확인
+    arr = ArrayList()
+    arr.append(1)               # int
+    arr.append("Python")        # string
+    arr.append((1, 2))          # tuple
+    arr.append({'나': "위재성"})  # dict
+    expected_list = [1, "Python", (1, 2), {"나": "위재성"}]
+
+    assert [arr[i] for i in range(len(arr))] == expected_list
     assert_invariant(arr)
 
 
 # ------- insert Test -------
-def test_insert_one():
-    pass
+def test_insert_front():
+    # 앞에 삽입
+    arr = ArrayList()
+    for i in range(5):
+        arr.insert(0, i)
+    expected_list = [4, 3, 2, 1, 0]
+    
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_insert_middle():
+    # 중간에 삽입 (밀기 검증)
+    arr = ArrayList()
+    for i in [10, 20, 30, 40]:
+        arr.append(i)
+    for i in range(3):
+        arr.insert(2, i)
+    expected_list = [10, 20, 2, 1, 0, 30, 40]
+
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_insert_end():
+    # 끝 삽입(=append) 동작
+    arr = ArrayList()
+    for i in range(4):
+        arr.insert(i, i)
+    expected_list = [0, 1, 2, 3]
+
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_insert_expand():
+    # capacity 꽉 찬 상태에서 삽입 -> 확장, 순서 보존
+    arr = ArrayList()
+    for i in range(4):
+        arr.append(i)
+    arr.insert(len(arr), 4)
+    expected_list = [0, 1, 2, 3, 4]
+
+    assert len(arr) == 5
+    assert arr.capacity == 8
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_insert_out_of_range():
+    # -1, len+1 초과는 IndexError
+    arr = ArrayList()
+    for i in range(4):
+        arr.append(i)
+    
+    with pytest.raises(IndexError):
+        arr.insert(-1, 1)
+    with pytest.raises(IndexError):
+        arr.insert(len(arr) + 1, 1)    
