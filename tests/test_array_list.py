@@ -189,3 +189,94 @@ def test_insert_out_of_range():
         arr.insert(-1, 1)
     with pytest.raises(IndexError):
         arr.insert(len(arr) + 1, 1)    
+
+
+# ------- pop Test -------
+def test_pop_last():
+    # 끝 pop, 기본 동작
+    arr = ArrayList()
+    for i in [10, 20, 30]:
+        arr.append(i)
+    return_val = arr.pop()
+    expected_list = [10, 20]
+
+    assert return_val == 30
+    assert len(arr) == 2
+    assert arr.buffer[2] is None
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_pop_last_two():
+    # 끝 pop, 연속 두 번
+    arr = ArrayList()
+    for i in [10, 20, 30, 40]:
+        arr.append(i)
+    return_val_1 =  arr.pop()
+    return_val_2 = arr.pop()
+    expected_list = [10, 20]
+
+    assert return_val_1 == 40 
+    assert return_val_2 == 30 
+    assert len(arr) == 2
+    assert arr.buffer[2] is None
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_pop_middle():
+    # 지정 pop: 중간 인덱스
+    arr = ArrayList()
+    for i in [10, 20, 30, 40]:
+        arr.append(i)
+    return_val = arr.pop(1)
+    expected_list = [10, 30, 40]
+
+    assert return_val == 20
+    assert len(arr) == 3
+    assert arr.buffer[3] is None
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_pop_front():
+    # 지정 pop: 맨 앞 인덱스
+    arr = ArrayList()
+    for i in [10, 20, 30]:
+        arr.append(i)
+    return_val =  arr.pop(0)
+    expected_list = [20, 30]
+
+    assert return_val == 10
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_pop_last_with_index():
+    # 지정 pop: 맨 끝 인덱스(= 끝 pop과 동일 효과)
+    arr = ArrayList()
+    for i in [10, 20, 30]:
+        arr.append(i)
+    return_val =  arr.pop(2)
+    expected_list = [10, 20]
+
+    assert return_val == 30
+    assert [arr[i] for i in range(len(arr))] == expected_list
+    assert_invariant(arr)
+
+def test_pop_empty_array():
+    # 예외: 빈 배열에서 pop
+    arr = ArrayList()
+
+    with pytest.raises(IndexError):
+        arr.pop()
+
+def test_pop_out_of_range():
+    # 예외: 인덱스 범위 밖
+    arr = ArrayList()
+    for i in range(5):
+        arr.append(i)
+    
+    with pytest.raises(IndexError):
+        arr.pop(-1)
+    with pytest.raises(IndexError):
+        arr.pop(len(arr))
+    with pytest.raises(IndexError):
+        arr.pop(len(arr) + 1)
+    assert_invariant(arr)

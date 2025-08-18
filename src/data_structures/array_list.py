@@ -149,3 +149,46 @@ class ArrayList():
             self.length += 1
         else:
             raise IndexError(f"index out of range: {index}")
+
+
+    def pop(self, index: int | None = None) -> Any:
+        '''
+        주어진 index 위치의 항목을 삭제하고 그 항목을 돌려준다.
+        index를 지정하지 않으면 리스트의 마지막 항목을 삭제하고 돌려준다.
+        리스트가 비어있거나 인덱스가 리스트 범위를 벗어나면 IndexError를 발생시킨다.
+
+        Parameters
+        ----------
+        index: int >> 인덱스 (0 <= index <= self.length)
+                      지정하지 않을 시 마지막 항목 지정
+
+        Raises
+        -----
+        IndexError >> 인덱스가 범위를 벗어난 경우, 빈 리스트인 경우
+
+        Notes
+        -----
+        시간복잡도
+        index 없을 시: O(1)
+        index 있을 시: O(n)
+
+        '''
+        if self.length == 0: 
+            raise IndexError(f"index out of range: {index}")
+
+        if index is None:
+            result = self.buffer[self.length - 1]
+            self.buffer[self.length - 1] = None
+            self.length -= 1
+            return result
+        else:
+            if 0<= index < self.length:
+                result = self.buffer[index]
+                self.buffer[index] = None
+                for i in range(index, self.length - 1):
+                    self.buffer[i] = self.buffer[i+1]
+                self.buffer[self.length - 1] = None
+                self.length -= 1
+                return result
+            else:
+                raise IndexError(f"index out of range: {index}")
