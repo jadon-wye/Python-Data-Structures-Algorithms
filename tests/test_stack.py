@@ -1,5 +1,6 @@
 import pytest
 from data_structures.stack import Stack
+from data_structures.stack_apps import is_valid_parentheses
 
 # ------- push/pop Test --------
 def test_push_and_size():
@@ -56,3 +57,18 @@ def test_peek_empty_raises():
     with pytest.raises(IndexError):
         stack.peek()
     
+
+# --------- stack_apps Test ---------
+def test_is_valid_parentheses_true_cases():
+    assert is_valid_parentheses("()")
+    assert is_valid_parentheses("([])")
+    assert is_valid_parentheses("{[]}")
+    assert is_valid_parentheses("")
+    assert is_valid_parentheses("a(b)c")
+    assert is_valid_parentheses("((({[]})))")
+
+def test_is_valid_parentheses_false_cases():
+    assert not is_valid_parentheses("(]")
+    assert not is_valid_parentheses("([)]")
+    assert not is_valid_parentheses("(()")
+    assert not is_valid_parentheses("a(b]c")
