@@ -58,6 +58,24 @@ class LinkedList:
             yield node.data
             node = node.next
 
+    def __str__(self) -> str:
+        '''
+        연결 리스트의 문자열 표현을 반환
+        ex: 0 → 1 → 2 → 3
+
+        Returns
+        -------
+        str >> 리스트의 현재 상태를 사람이 읽기 좋은 문자열로 표현
+        '''
+        if self.head is None:
+            return "Linked List is empty"
+        result = f"{self.head.data}"
+        node = self.head.next
+        while node is not None:
+            result += " → " + str(node.data)
+            node = node.next
+        return result
+
     def append(self, value: Any):
         '''
         연결 리스트의 마지막에 value를 추가한다.
@@ -204,3 +222,24 @@ class LinkedList:
             node = node.next
 
         raise ValueError(f"'{value}' is not in Linked List")
+
+    def reverse(self) -> None:
+        '''
+        연결 리스트를 제자리에서 역순으로 뒤집는다.
+        prev, ahead 포인터를 사용하여 반복이동하며 뒤집는다.
+
+        Notes
+        -----
+        - 시간복잡도: O(n)
+        - 빈 리스트나 원소 1개인 경우 변화 없음
+        '''
+        if self.size < 2:
+            return
+        prev = None
+        ahead = self.head.next
+        while ahead is not None:
+            self.head.next = prev
+            prev = self.head
+            self.head = ahead
+            ahead = ahead.next
+        self.head.next = prev
